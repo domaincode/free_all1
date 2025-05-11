@@ -9,7 +9,9 @@ int	check_wall_sides(char *map)
 	while (ft_is_space(map[i]) && i >= 0)
 		i--;
 	if (map[i] != '1')
+	{
 		return put_error("MAP ISN'T SURROUNDED BY WALLS");
+	}
 	return 0;
 }
 
@@ -17,7 +19,10 @@ int 	check_wall_inside(char **map, int i, int j)
 {
 	if (map[i][j - 1] == ' ' || map[i][j + 1] == ' ' || map[i - 1][j] == ' '
 		|| map[i + 1][j] == ' ')
+	{
+		//exit(0);
 		return put_error("MAP ISN'T SURROUNDED BY WALLS");
+	}
 	return 0;
 }
 
@@ -62,14 +67,21 @@ int	map_parsing(t_map **map)
 
 	i = 0;
 	if ((*map)->map[i])
-		return check_sides_wall((*map)->map[i]);
+		 if(check_sides_wall((*map)->map[i]) == 1)
+		 	return 1;
+	//exit(0);
 	while ((*map)->map[i])
 	{
 		j = 0;
 		while ((*map)->map[i][j])
 		{
+			//exit(0);
 			if (!ft_is_player((*map)->map[i][j]))
-				return check_wall_inside((*map)->map, i, j);
+			{
+				//exit(0);
+				 if(check_wall_inside((*map)->map, i, j) == 1)
+				 	return 1;
+			}
 			j++;
 		}
 		i++;
@@ -77,7 +89,8 @@ int	map_parsing(t_map **map)
 	if ((*map)->map[i])
 	{
 		i--;
-		return check_sides_wall((*map)->map[i]);
+		 if(check_sides_wall((*map)->map[i]) == 1)
+		 	return 1;
 	}
 	return check_empty_line((*map)->map);
 }
